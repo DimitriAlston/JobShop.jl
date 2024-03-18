@@ -1,8 +1,8 @@
-# Jobshop.jl
-Surrogate Lagrangian Jobshop Solver
+# JobShop.jl
+Surrogate Lagrangian Job-Shop Solver
 
 ## Problem Specification
-The jobshop scheduling problem is specified by a `jsp::JobShopProblem` mutable structure. Currently, persistent 
+The job-shop scheduling problem is specified by a `jsp::JobShopProblem` mutable structure. Currently, persistent 
 storage and specification of the problem is done using a series of .csv files which are loaded into intermediate 
 `DataFrames` objects then used to populate the `jsp` structure. In total eight .csv files are used which are 
 loaded into dataframes then used:
@@ -13,14 +13,14 @@ loaded into dataframes then used:
 - **part_operation_scrap**: Currently, unused. Will be used to set scrap probabilities specific to each part and operation rather than a single scrap probability for all part and operation combinations.
 - **part_operation_time**: Contains three columns `part`, `op`, and `time` used to specific the time taken to process each part on a given operation.
 - **machine_part_op**: Describes the part and operation combinations that may be processes on a given machine.
-- **machine_capacity**: Describes the capacity for each machine where the ith entry in the `capacity` column corresponds to the capacity of machine `i`.
+- **machine_capacity**: Describes the capacity for each machine where the i-th entry in the `capacity` column corresponds to the capacity of machine `i`.
 
 The following parameters must also be set in order to fully define the problem.
 
 - **ShiftLength**: Typical shift length considered.
 - **prob**: Set in the `parameter` subfield of `jsp`. Probability of scrap. 
 - **prob_r**: Set in the `parameter` subfield of `jsp`. Probability of rework.
-- **T**: UnitRange defining the number of timesteps considered.
+- **T**: UnitRange defining the number of time steps considered.
 - **Tmax**: Maximum time for scheduling problem.
 
 ## Solver Metaparameters

@@ -72,7 +72,8 @@ function sequential_solve!(jsp::JobShopProblem)
     initialize!(jsp)
     k = 0
     while !terminated(jsp)
-        if solve_subproblem(jsp, jsp.Ii[k + 1], k + 1)
+        valid_subproblem = solve_subproblem(jsp, jsp.Ii[k + 1], k + 1)
+        if valid_subproblem
             update_stepsize!(jsp)
             update_multiplier!(jsp)
             update_penalty!(jsp)
@@ -84,13 +85,15 @@ function sequential_solve!(jsp::JobShopProblem)
             display_iteration(jsp, k + 1)
             k = mod(k + 1, length(jsp.Ii))
             jsp.status.current_iteration += 1
+        else
+            error("Invalid Subproblem")
         end
     end
     df = DataFrame(part=Int[], op=Int[], start=Int[])
     sdf = DataFrame(part=Int[], op=Int[], start=Int[])
     for i in jsp.I, j in jsp.Jop[i]
-        push!(df, (i, j, jsp.feasible_bTime1[i,j]))
-        push!(sdf, (i, j, jsp.sbTime1[i,j]))
+        push!(df, (i, j, round(Int, jsp.feasible_bTime1[i,j])))
+        push!(sdf, (i, j, round(Int, jsp.sbTime1[i,j])))
     end
     return df, sdf
 end

@@ -37,7 +37,7 @@ function load_from_csv(path::String)
     end
 
     nbPart = length(jsp.I)
-    nbOperation = length(jsp.J)
+    nbOperation = maximum(part_operation_num.num)
     nbMachine = length(jsp.MachineType)
 
     Pro = zeros(nbPart, nbOperation)
